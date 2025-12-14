@@ -7,6 +7,9 @@
 [![Java](https://img.shields.io/badge/java-21+-orange.svg)](https://adoptium.net/)
 [![License](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 
+# AI GENERATED
+This for transparency
+
 ## 📋 Overview
 
 WDP Progress is a sophisticated player progression tracking system that calculates a comprehensive progress score (1-100) based on multiple dimensions of gameplay. Unlike simple level-based systems, this plugin evaluates players across six weighted categories to provide a realistic representation of their overall advancement in the game.
