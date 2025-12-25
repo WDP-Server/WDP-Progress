@@ -99,7 +99,7 @@ public abstract class DetailMenu {
             inv.setItem(45, createPreviousPageButton());
         }
         if (page < maxPages - 1) {
-            inv.setItem(53, createNextPageButton());
+            inv.setItem(50, createNextPageButton());
         }
         
         // Add page indicator
@@ -107,6 +107,9 @@ public abstract class DetailMenu {
         
         // Add back button
         inv.setItem(48, createBackButton());
+        
+        // Add back button at slot 53 (instead of next page)
+        inv.setItem(53, createBackButton());
         
         // Fill borders with glass panes
         fillBorders(inv);

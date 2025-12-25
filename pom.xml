@@ -26,6 +26,11 @@
             <id>jitpack.io</id>
             <url>https://jitpack.io</url>
         </repository>
+        <!-- Slate framework repository -->
+        <repository>
+            <id>aurelium-repo</id>
+            <url>https://repo.aurelium.dev/releases</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -43,6 +48,20 @@
             <artifactId>VaultAPI</artifactId>
             <version>1.7</version>
             <scope>provided</scope>
+        </dependency>
+
+        <!-- SQLite JDBC for local database -->
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.45.1.0</version>
+        </dependency>
+
+        <!-- Slate framework for menu system -->
+        <dependency>
+            <groupId>dev.aurelium</groupId>
+            <artifactId>slate</artifactId>
+            <version>1.2.0</version>
         </dependency>
 
         <!-- SQLite JDBC for local database -->

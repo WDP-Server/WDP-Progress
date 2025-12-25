@@ -3,6 +3,7 @@ package com.wdp.progress.ui;
 import com.wdp.progress.WDPProgressPlugin;
 import com.wdp.progress.data.PlayerData;
 import com.wdp.progress.progress.ProgressCalculator;
+import com.wdp.progress.ui.menu.UnifiedMenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -15,7 +16,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interactive GUI menu for viewing player progress
@@ -24,6 +27,7 @@ public class ProgressMenu {
     
     private final WDPProgressPlugin plugin;
     private final DecimalFormat df = new DecimalFormat("#.#");
+    private final UnifiedMenuManager unifiedMenuManager;
     
     // Detail menus
     private final AdvancementsDetailMenu advancementsDetailMenu;
@@ -34,6 +38,7 @@ public class ProgressMenu {
     
     public ProgressMenu(WDPProgressPlugin plugin) {
         this.plugin = plugin;
+        this.unifiedMenuManager = new UnifiedMenuManager(plugin);
         
         // Initialize detail menus
         this.advancementsDetailMenu = new AdvancementsDetailMenu(plugin, this);
@@ -89,12 +94,16 @@ public class ProgressMenu {
         inv.setItem(32, createDeathPenaltyItem(result, data, target));
         inv.setItem(34, createTipsItem(result));
         
-        // Information items
-        inv.setItem(45, createExplainItem());
-        inv.setItem(49, createHistoryItem(target));
-        inv.setItem(53, createCloseItem());
+        // Apply unified navbar
+        Map<String, Object> context = new HashMap<>();
+        context.put("menu_name", "Progress Overview");
+        context.put("menu_description", "View your player progress");
+        context.put("page", 1);
+        context.put("total_pages", 1);
         
-        // Decorative borders
+        unifiedMenuManager.applyNavbar(inv, viewer, "progress", context);
+        
+        // Decorative borders (only for non-navbar areas)
         fillBorder(inv);
         
         viewer.openInventory(inv);
@@ -699,5 +708,9 @@ public class ProgressMenu {
         }
         
         return category;
+    }
+    
+    public UnifiedMenuManager getUnifiedMenuManager() {
+        return unifiedMenuManager;
     }
 }
