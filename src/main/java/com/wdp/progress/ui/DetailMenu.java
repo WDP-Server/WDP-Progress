@@ -121,7 +121,7 @@ public abstract class DetailMenu {
      * Create a back button to return to main menu
      */
     protected ItemStack createBackButton() {
-        ItemStack item = new ItemStack(Material.ARROW);
+        ItemStack item = new ItemStack(Material.SPYGLASS);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.YELLOW + "← Back to Main Menu");
         List<String> lore = new ArrayList<>();
@@ -137,7 +137,7 @@ public abstract class DetailMenu {
      * Create previous page button
      */
     protected ItemStack createPreviousPageButton() {
-        ItemStack item = new ItemStack(Material.SPECTRAL_ARROW);
+        ItemStack item = new ItemStack(Material.ARROW);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.YELLOW + "← Previous Page");
         item.setItemMeta(meta);
@@ -148,7 +148,7 @@ public abstract class DetailMenu {
      * Create next page button
      */
     protected ItemStack createNextPageButton() {
-        ItemStack item = new ItemStack(Material.SPECTRAL_ARROW);
+        ItemStack item = new ItemStack(Material.ARROW);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(ChatColor.YELLOW + "Next Page →");
         item.setItemMeta(meta);

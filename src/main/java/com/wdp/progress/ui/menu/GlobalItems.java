@@ -42,7 +42,7 @@ public class GlobalItems {
      * The previous menu name should be stored in the menu session
      */
     public ItemStack createBackItem(String menuName) {
-        ItemStack item = new ItemStack(Material.ARROW);
+        ItemStack item = new ItemStack(Material.SPYGLASS);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName("§e§l← Back");
         List<String> lore = new ArrayList<>();
@@ -58,7 +58,7 @@ public class GlobalItems {
      * Creates a back button for returning to main menu
      */
     public ItemStack createBackToMainItem() {
-        ItemStack item = new ItemStack(Material.ARROW);
+        ItemStack item = new ItemStack(Material.SPYGLASS);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName("§a§l← Back to Main");
         List<String> lore = new ArrayList<>();

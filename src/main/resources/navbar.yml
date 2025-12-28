@@ -5,7 +5,7 @@
 navbar:
   back:
     slot: 45
-    material: arrow
+    material: spyglass
     display_name: '§e§l← Back'
     lore:
       - '§7Return to previous menu'
