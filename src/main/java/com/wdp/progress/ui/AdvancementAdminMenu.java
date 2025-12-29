@@ -3,7 +3,6 @@ package com.wdp.progress.ui;
 import com.wdp.progress.WDPProgressPlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.NamespacedKey;
 import org.bukkit.advancement.Advancement;
 import org.bukkit.advancement.AdvancementProgress;
 import org.bukkit.entity.Player;
@@ -91,10 +90,30 @@ public class AdvancementAdminMenu {
         int startIndex = page * maxPerPage;
         int endIndex = Math.min(startIndex + maxPerPage, advancements.size());
         
-        // Add advancement items
+        // Add advancement items (skip slots 18 and 26 for navigation)
+        int itemSlot = 0;
         for (int i = startIndex; i < endIndex; i++) {
+            // Skip navigation slots
+            if (itemSlot == 18 || itemSlot == 26) {
+                itemSlot++;
+            }
+            
+            // If we've exceeded the inventory space, stop
+            if (itemSlot >= 45) {
+                break;
+            }
+            
             AdvancementData data = advancements.get(i);
-            inv.setItem(i - startIndex, createAdvancementItem(data, target));
+            inv.setItem(itemSlot, createAdvancementItem(data, target));
+            itemSlot++;
+        }
+        
+        // Place navigation buttons (will overwrite any items in slots 18/26 if they somehow got there)
+        if (page > 0) {
+            inv.setItem(18, createNavigationItem("Previous Page", Material.ARROW, page - 1));
+        }
+        if (page < totalPages - 1) {
+            inv.setItem(26, createNavigationItem("Next Page", Material.ARROW, page + 1));
         }
         
         // Control panel at bottom
@@ -109,14 +128,6 @@ public class AdvancementAdminMenu {
         inv.setItem(52, createBulkActionItem(target));
         inv.setItem(53, createCloseItem());
         
-        // Navigation
-        if (page > 0) {
-            inv.setItem(18, createNavigationItem("Previous Page", Material.ARROW, page - 1));
-        }
-        if (page < totalPages - 1) {
-            inv.setItem(26, createNavigationItem("Next Page", Material.ARROW, page + 1));
-        }
-        
         // Store menu data in player metadata for click handling
         admin.setMetadata("wdp_adv_menu_target", new org.bukkit.metadata.FixedMetadataValue(plugin, target.getName()));
         admin.setMetadata("wdp_adv_menu_category", new org.bukkit.metadata.FixedMetadataValue(plugin, category.name()));
@@ -129,7 +140,7 @@ public class AdvancementAdminMenu {
     /**
      * Get filtered advancements based on category and completion status
      */
-    private List<AdvancementData> getFilteredAdvancements(Player target, Category category, FilterMode filterMode) {
+    public List<AdvancementData> getFilteredAdvancements(Player target, Category category, FilterMode filterMode) {
         List<AdvancementData> result = new ArrayList<>();
         
         Iterator<Advancement> advIterator = Bukkit.getServer().advancementIterator();
@@ -194,8 +205,20 @@ public class AdvancementAdminMenu {
         lore.add("§7Category: §f" + determineCategory(data.advancement.getKey().toString()));
         lore.add("§7Status: " + (data.completed ? "§a§lCOMPLETED" : "§c§lINCOMPLETE"));
         
+        // Add description from advancement display if available
+        try {
+            if (data.advancement.getDisplay() != null && data.advancement.getDisplay().getDescription() != null) {
+                String description = data.advancement.getDisplay().getDescription();
+                if (!description.isEmpty()) {
+                    lore.add("");
+                    lore.add("§8§o" + description);
+                }
+            }
+        } catch (Exception e) {
+            // Description not available, skip it
+        }
+        
         if (data.completed) {
-            AdvancementProgress progress = target.getAdvancementProgress(data.advancement);
             lore.add("");
             lore.add("§e§lClick to REVOKE this advancement");
         } else {
@@ -436,7 +459,7 @@ public class AdvancementAdminMenu {
     /**
      * Helper class to store advancement data
      */
-    private static class AdvancementData {
+    public static class AdvancementData {
         final Advancement advancement;
         final boolean completed;
         

@@ -13,10 +13,8 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.Damageable;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * Core progress calculation engine.
@@ -167,9 +165,10 @@ public class ProgressCalculator {
             categoryCounts.put(category, 0);
             categoryTotals.put(category, 0);
         }
-        
-        int totalCompleted = 0;
+        @SuppressWarnings("unused")
         int totalAdvancements = 0;
+        @SuppressWarnings("unused")
+        int totalCompleted = 0;
         double milestoneBonus = 0.0;
         
         // Iterate through all advancements

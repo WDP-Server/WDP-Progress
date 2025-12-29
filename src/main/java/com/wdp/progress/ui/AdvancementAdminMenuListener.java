@@ -74,9 +74,19 @@ public class AdvancementAdminMenuListener implements Listener {
             return;
         }
         
-        // Handle navigation
+        // Handle navigation (slots 18 and 26)
         if (slot == 18 || slot == 26) {
-            // Navigation handled by control panel
+            int newPage = (slot == 18) ? page - 1 : page + 1;
+            
+            // Calculate total pages to validate
+            int maxPerPage = 45;
+            int totalAdvancements = menu.getFilteredAdvancements(target, category, filter).size();
+            int totalPages = (int) Math.ceil(totalAdvancements / (double) maxPerPage);
+            
+            // Validate page range
+            if (newPage >= 0 && newPage < totalPages) {
+                menu.openMenu(admin, target, category, filter, newPage);
+            }
             return;
         }
         

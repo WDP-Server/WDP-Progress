@@ -3,7 +3,6 @@ package com.wdp.progress.commands;
 import com.wdp.progress.WDPProgressPlugin;
 import com.wdp.progress.data.PlayerData;
 import com.wdp.progress.progress.ProgressCalculator;
-import com.wdp.progress.ui.ProgressMenu;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -14,7 +13,6 @@ import org.bukkit.entity.Player;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,7 +23,6 @@ public class ProgressCommand implements CommandExecutor, TabCompleter {
     
     private final WDPProgressPlugin plugin;
     private final DecimalFormat df;
-    private final ProgressMenu menu;
     
     public ProgressCommand(WDPProgressPlugin plugin) {
         this.plugin = plugin;
@@ -35,7 +32,6 @@ public class ProgressCommand implements CommandExecutor, TabCompleter {
             pattern.append("#");
         }
         this.df = new DecimalFormat(pattern.toString());
-        this.menu = new ProgressMenu(plugin);
     }
     
     @Override

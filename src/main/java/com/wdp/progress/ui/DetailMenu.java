@@ -96,7 +96,7 @@ public abstract class DetailMenu {
         
         // Add navigation buttons
         if (page > 0) {
-            inv.setItem(45, createPreviousPageButton());
+            inv.setItem(48, createPreviousPageButton());
         }
         if (page < maxPages - 1) {
             inv.setItem(50, createNextPageButton());
@@ -105,8 +105,6 @@ public abstract class DetailMenu {
         // Add page indicator
         inv.setItem(49, createPageIndicator(page + 1, maxPages, items.size()));
         
-        // Add back button
-        inv.setItem(48, createBackButton());
         
         // Add back button at slot 53 (instead of next page)
         inv.setItem(53, createBackButton());
@@ -139,7 +137,7 @@ public abstract class DetailMenu {
     protected ItemStack createPreviousPageButton() {
         ItemStack item = new ItemStack(Material.ARROW);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(ChatColor.YELLOW + "← Previous Page");
+        meta.setDisplayName("§e§l← Previous");
         item.setItemMeta(meta);
         return item;
     }
@@ -214,11 +212,11 @@ public abstract class DetailMenu {
         }
         
         // Handle pagination
-        if (displayName.contains("Previous Page")) {
+        if (displayName.contains("Previous")) {
             open(viewer, target, page - 1);
             return true;
         }
-        if (displayName.contains("Next Page")) {
+        if (displayName.contains("Next")) {
             open(viewer, target, page + 1);
             return true;
         }

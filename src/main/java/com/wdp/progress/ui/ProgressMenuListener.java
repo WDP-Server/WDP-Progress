@@ -45,8 +45,6 @@ public class ProgressMenuListener implements Listener {
             return;
         }
         
-        String displayName = clicked.getItemMeta().getDisplayName();
-        
         // Extract target player name from title
         String targetName = extractPlayerName(title);
         Player target = targetName != null ? plugin.getServer().getPlayer(targetName) : viewer;

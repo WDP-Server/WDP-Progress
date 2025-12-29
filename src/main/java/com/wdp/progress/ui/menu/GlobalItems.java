@@ -2,7 +2,6 @@ package com.wdp.progress.ui.menu;
 
 import com.wdp.progress.WDPProgressPlugin;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -14,7 +13,8 @@ import java.util.List;
  * Provides consistent close, back, and navigation functionality
  */
 public class GlobalItems {
-
+    
+    @SuppressWarnings("unused")
     private final WDPProgressPlugin plugin;
 
     public GlobalItems(WDPProgressPlugin plugin) {
@@ -44,7 +44,7 @@ public class GlobalItems {
     public ItemStack createBackItem(String menuName) {
         ItemStack item = new ItemStack(Material.SPYGLASS);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§e§l← Back");
+        meta.setDisplayName("§c§l← Back");
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add("§7Return to " + formatMenuName(menuName));
@@ -60,7 +60,7 @@ public class GlobalItems {
     public ItemStack createBackToMainItem() {
         ItemStack item = new ItemStack(Material.SPYGLASS);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§a§l← Back to Main");
+        meta.setDisplayName("§c§l← Back§7 to Main");
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add("§7Return to main menu");
@@ -76,7 +76,7 @@ public class GlobalItems {
     public ItemStack createPreviousPageItem(int currentPage) {
         ItemStack item = new ItemStack(Material.ARROW);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§e§l← Previous Page");
+        meta.setDisplayName("§e§l← Previous");
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add("§7Go to page " + (currentPage - 1));
@@ -92,7 +92,7 @@ public class GlobalItems {
     public ItemStack createNextPageItem(int currentPage, int totalPages) {
         ItemStack item = new ItemStack(Material.ARROW);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName("§e§lNext Page →");
+        meta.setDisplayName("§e§lNext →");
         List<String> lore = new ArrayList<>();
         lore.add("");
         lore.add("§7Go to page " + (currentPage + 1) + "/" + totalPages);

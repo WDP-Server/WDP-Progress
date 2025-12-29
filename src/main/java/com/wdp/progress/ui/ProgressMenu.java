@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -82,7 +81,8 @@ public class ProgressMenu {
             ChatColor.DARK_PURPLE + "⚡ " + ChatColor.GOLD + target.getName() + "'s Progress " + ChatColor.DARK_PURPLE + "⚡");
         
         // Main progress display (center top)
-        inv.setItem(4, createMainProgressItem(result));
+        inv.setItem(4, createExplainItem());
+        inv.setItem(49, createMainProgressItem(result));
         
         // Category items
         inv.setItem(10, createAdvancementsItem(result, target));
@@ -557,51 +557,6 @@ public class ProgressMenu {
         lore.add(ChatColor.LIGHT_PURPLE + "100: " + ChatColor.GRAY + "Master (very rare!)");
         lore.add("");
         lore.add(ChatColor.GRAY + "Hover over items for details!");
-        lore.add("");
-        
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        
-        return item;
-    }
-    
-    /**
-     * Create history item
-     */
-    private ItemStack createHistoryItem(Player target) {
-        ItemStack item = new ItemStack(Material.CLOCK);
-        ItemMeta meta = item.getItemMeta();
-        
-        meta.setDisplayName(ChatColor.YELLOW + "📊 Progress History");
-        
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "View your progress over time");
-        lore.add("");
-        lore.add(ChatColor.YELLOW + "Coming soon:");
-        lore.add(ChatColor.GRAY + "• Progress graph");
-        lore.add(ChatColor.GRAY + "• Historical data");
-        lore.add(ChatColor.GRAY + "• Trends and statistics");
-        lore.add("");
-        
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        
-        return item;
-    }
-    
-    /**
-     * Create close item
-     */
-    private ItemStack createCloseItem() {
-        ItemStack item = new ItemStack(Material.BARRIER);
-        ItemMeta meta = item.getItemMeta();
-        
-        meta.setDisplayName(ChatColor.RED + "✖ Close Menu");
-        
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "Click to close this menu");
         lore.add("");
         
         meta.setLore(lore);
