@@ -64,7 +64,9 @@ public class UnifiedMenuManager {
             if (config.getKeys(false).isEmpty()) {
                 InputStream defaultStream = plugin.getResource("navbar.yml");
                 if (defaultStream != null) {
-                    config = YamlConfiguration.loadConfiguration(new InputStreamReader(defaultStream, StandardCharsets.UTF_8));
+                    try (InputStreamReader reader = new InputStreamReader(defaultStream, StandardCharsets.UTF_8)) {
+                        config = YamlConfiguration.loadConfiguration(reader);
+                    }
                 }
             }
             
