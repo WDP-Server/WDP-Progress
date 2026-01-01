@@ -1,0 +1,808 @@
+# ═══════════════════════════════════════════════════════════════════
+# WDP Progress - Messages Configuration
+# ═══════════════════════════════════════════════════════════════════
+# Supports:
+#   - Standard color codes: &c, &a, &b, etc.
+#   - Hex colors: &#FF5555
+#   - Placeholders: {player}, {value}, {amount}, etc.
+# ═══════════════════════════════════════════════════════════════════
+
+prefix: "&8[&6Progress&8] &r"
+
+# ═══════════════════════════════════════════════════════════════════
+# COMMAND MESSAGES
+# ═══════════════════════════════════════════════════════════════════
+commands:
+  # /progress command
+  progress:
+    console-specify-player: "&cConsole must specify a player name."
+    console-no-gui: "&cConsole cannot open GUI menus."
+    no-permission-others: "&cYou don't have permission to view other players' progress."
+    player-not-found: "&cPlayer not found or not online."
+    data-load-failed: "&cCould not load progress data."
+    
+  # /progress debug
+  debug:
+    no-permission: "&cYou don't have permission to use debug commands."
+    usage: "&cUsage: /progress debug <player>"
+    header: "&4━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+    title: "&c       DEBUG: &f{player}'s Progress"
+    final-score: "&6FINAL SCORE: &f{score}/100"
+    category-breakdown: "&eCATEGORY BREAKDOWN:"
+    death-penalty: "&cDeath Penalty: &f-{penalty} points"
+    calculation-formula: "&bCALCULATION FORMULA:"
+    formula-text: "&7Final = (Adv×25% + Exp×15% + Equip×20% + Econ×15% + Stats×15% + Ach×10%) - Deaths"
+    player-statistics: "&ePLAYER STATISTICS:"
+    stat-level: "&7• Level: &f{level}"
+    stat-deaths: "&7• Total Deaths: &f{deaths}"
+    stat-achievements: "&7• Achievements: &f{count}"
+    stat-last-updated: "&7• Last Updated: &f{time}"
+    stat-balance: "&7• Balance: &f${balance}"
+    category-score: "&7  Score: &f{score}/100 {bar}"
+    category-weight: "&7  Weight: &f{weight}%"
+    category-contribution: "&7  Contribution: &b+{contribution} points"
+    
+  # /progressadmin command
+  admin:
+    no-permission: "&cYou don't have permission to use this command."
+    unknown-subcommand: "&cUnknown subcommand. Use /progressadmin for help."
+    
+    # Reload
+    reload:
+      no-permission: "&cYou don't have permission to reload the plugin."
+      reloading: "&eReloading WDP Progress configuration..."
+      success: "&aConfiguration reloaded successfully!"
+      failed: "&cFailed to reload configuration. Check console for errors."
+    
+    # Recalculate
+    recalculate:
+      no-permission: "&cYou don't have permission to recalculate progress."
+      usage: "&cUsage: /progressadmin recalculate <player>"
+      calculating: "&eRecalculating progress for {player}..."
+      success: "&aProgress recalculated: &b{value}/100"
+    
+    # Set
+    set:
+      no-permission: "&cYou don't have permission to set progress."
+      usage: "&cUsage: /progressadmin set <player> <value>"
+      invalid-number: "&cInvalid number: {value}"
+      success: "&aSet {player}'s progress to &b{value}/100"
+      failed: "&cFailed to set progress."
+    
+    # Reset
+    reset:
+      no-permission: "&cYou don't have permission to reset progress."
+      usage: "&cUsage: /progressadmin reset <player>"
+      confirm-warning: "&eAre you sure? This will completely reset {player}'s progress data."
+      confirm-prompt: "&eRun the command again within 10 seconds to confirm."
+      success: "&aReset {player}'s progress data."
+      failed: "&cFailed to reset progress."
+    
+    # Debug
+    debug:
+      no-permission: "&cYou don't have permission to view debug information."
+      usage: "&cUsage: /progressadmin debug <player>"
+      header: "&6━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+      title: "&b       Debug Info: &f{player}"
+      current-progress: "&e  Current Progress: &f{value}"
+      last-progress: "&e  Last Progress: &f{value}"
+      progress-delta: "&e  Progress Delta: &f{value}"
+      category-scores: "&e  Category Scores (0-100 within category):"
+      category-weights: "&e  Category Weights:"
+      player-level: "&e  Player Level: &f{level}"
+      completed-achievements: "&e  Completed Achievements: &f{count}"
+      last-death: "&e  Last Death: &f{time}"
+      balance: "&e  Balance: &f{balance}"
+    
+    # Advancements
+    advancements:
+      players-only: "&cThis command can only be used by players."
+      op-only: "&cYou must be an OP to use the advancement admin menu."
+      usage: "&cUsage: /progressadmin advancements <player>"
+      confirm-reset-usage: "&cUsage: /progressadmin confirm-reset-adv <player>"
+      confirm-grant-usage: "&cUsage: /progressadmin confirm-grant-adv <player>"
+    
+    # Help
+    help:
+      header: "&6━━━━━━━━━ &bWDP Progress Admin &6━━━━━━━━━"
+      reload: "&e/progressadmin reload &7- Reload configuration"
+      recalculate: "&e/progressadmin recalculate <player> &7- Recalculate progress"
+      set: "&e/progressadmin set <player> <value> &7- Set progress value"
+      reset: "&e/progressadmin reset <player> &7- Reset player data"
+      debug: "&e/progressadmin debug <player> &7- View debug info"
+      advancements: "&e/progressadmin advancements <player> &7- Manage advancements (OP only)"
+      footer: "&6━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+# ═══════════════════════════════════════════════════════════════════
+# MENU TITLES
+# ═══════════════════════════════════════════════════════════════════
+menu:
+  titles:
+    progress-main: "&5⚡ &6{player}'s Progress &5⚡"
+    advancements-detail: "&d📖 Advancements - {player}"
+    equipment-detail: "&b⚔ Equipment - {player}"
+    statistics-detail: "&e📊 Statistics - {player}"
+    economy-experience: "&6💰 Economy & Experience - {player}"
+    death-penalty: "&c☠ Death Penalty - {player}"
+    advancement-admin: "&8&l⚙ &6Advancements: &e{player}"
+
+  # =============================================================
+  # MAIN PROGRESS MENU
+  # =============================================================
+  main:
+    overall-progress:
+      name: "{color}⭐ Overall Progress: {score}/100 ⭐"
+      lore:
+        - ""
+        - "&7Progress Tier: {color}{tier}"
+        - ""
+        - "{progress_bar}"
+        - ""
+        - "&e» Click categories below for details"
+        - "&e» Hover for tips and information"
+        - ""
+    
+    explain:
+      name: "&b❓ How Does This Work?"
+      lore:
+        - ""
+        - "&eThe Progress System Explained:"
+        - ""
+        - "&7Your progress score (1-100) shows how"
+        - "&7far you've advanced in the game."
+        - ""
+        - "&fIt's calculated from 6 categories:"
+        - "&d• Advancements &7(25%)"
+        - "&b• Equipment &7(20%)"
+        - "&a• Experience &7(15%)"
+        - "&6• Economy &7(15%)"
+        - "&c• Statistics &7(15%)"
+        - "&e• Achievements &7(10%)"
+        - ""
+        - "&7Each category has its own score"
+        - "&7(0-100), weighted by importance,"
+        - "&7then combined for your final score."
+        - ""
+        - "&eProgress Tiers:"
+        - "&c1-20: &7Beginner"
+        - "&621-40: &7Novice"
+        - "&e41-60: &7Intermediate"
+        - "&a61-80: &7Advanced"
+        - "&b81-99: &7Expert"
+        - "&d100: &7Master (very rare!)"
+        - ""
+        - "&7Hover over items for details!"
+        - ""
+    
+    advancements:
+      name: "&d📖 Advancements"
+      lore:
+        - ""
+        - "&7Category Score: &f{score}/100"
+        - "&7Weight: &f{weight}%"
+        - "&7Contribution: &b+{contribution} points"
+        - ""
+        - "&eWhat is this?"
+        - "&7Tracks your story progression through"
+        - "&7Minecraft advancements. Complete the"
+        - "&7main story, explore the Nether and End,"
+        - "&7and unlock achievements."
+        - ""
+        - "&eHow to improve:"
+        - "&a✓ Complete story advancements"
+        - "&a✓ Enter and explore the Nether"
+        - "&a✓ Find and enter the End dimension"
+        - "&a✓ Defeat the Ender Dragon"
+        - "&a✓ Get the Elytra wings"
+        - ""
+        - "&6▶ Click to view detailed advancements!"
+        - ""
+    
+    experience:
+      name: "&a✨ Experience Levels"
+      lore:
+        - ""
+        - "&7Current Level: &f{level}"
+        - "&7Category Score: &f{score}/100"
+        - "&7Weight: &f{weight}%"
+        - "&7Contribution: &b+{contribution} points"
+        - ""
+        - "&eWhat is this?"
+        - "&7Your XP level matters! Higher levels"
+        - "&7show you've invested time gathering"
+        - "&7experience. Uses smart scaling so"
+        - "&7grinding doesn't break the system."
+        - ""
+        - "&eHow to improve:"
+        - "&a✓ Kill mobs to gain experience"
+        - "&a✓ Mine ores (especially diamonds)"
+        - "&a✓ Breed animals for XP"
+        - "&a✓ Trade with villagers"
+        - "&a✓ Smelt items in furnaces"
+        - ""
+        - "&7Note: Uses diminishing returns"
+        - ""
+        - "&6▶ Click to view XP details!"
+        - ""
+    
+    equipment:
+      name: "&b⚔ Equipment Quality"
+      lore:
+        - ""
+        - "&7Category Score: &f{score}/100"
+        - "&7Weight: &f{weight}%"
+        - "&7Contribution: &b+{contribution} points"
+        - ""
+        - "&eWhat is this?"
+        - "&7Evaluates your gear quality including"
+        - "&7armor, tools, and weapons. Better"
+        - "&7materials and enchantments increase"
+        - "&7your score."
+        - ""
+        - "&eHow to improve:"
+        - "&a✓ Upgrade to diamond/netherite gear"
+        - "&a✓ Enchant your equipment"
+        - "&a✓ Get Mending enchantment"
+        - "&a✓ Obtain special items (Elytra, Trident)"
+        - "&a✓ Keep gear repaired"
+        - "&a✓ Get a full armor set (15% bonus)"
+        - ""
+        - "&6▶ Click to view equipment details!"
+        - ""
+    
+    economy:
+      name: "&6💰 Economy & Wealth"
+      lore:
+        - ""
+        - "&7Balance: &f${balance}"
+        - "&7Category Score: &f{score}/100"
+        - "&7Weight: &f{weight}%"
+        - "&7Contribution: &b+{contribution} points"
+        - ""
+        - "&eWhat is this?"
+        - "&7Your money and economic success!"
+        - "&7Earn money through various means."
+        - ""
+        - "&eHow to improve:"
+        - "&a✓ Participate in the economy"
+        - "&a✓ Sell items to other players"
+        - "&a✓ Complete jobs and quests"
+        - "&a✓ Trade valuable resources"
+        - "&a✓ Build and sell services"
+        - ""
+        - "&6▶ Click to view economy & XP!"
+        - ""
+    
+    statistics:
+      name: "&e📊 Statistics & Activity"
+      lore:
+        - ""
+        - "&7Category Score: &f{score}/100"
+        - "&7Weight: &f{weight}%"
+        - "&7Contribution: &b+{contribution} points"
+        - ""
+        - "&eQuick Stats:"
+        - "&7• Playtime: &f{playtime} hours"
+        - "&7• Mob Kills: &f{mob_kills}"
+        - "&7• Distance: &f{distance} km"
+        - "&7• Deaths: &f{deaths}"
+        - ""
+        - "&eHow to improve:"
+        - "&a✓ Fight and defeat boss mobs"
+        - "&a✓ Mine valuable ores"
+        - "&a✓ Explore new areas"
+        - "&a✓ Play actively"
+        - "&a✓ Avoid dying"
+        - ""
+        - "&6▶ Click to view detailed statistics!"
+        - ""
+    
+    achievements:
+      name: "&e⭐ Custom Achievements"
+      lore:
+        - ""
+        - "&7Completed: &f{completed}/{total}"
+        - "&7Category Score: &f{score}/100"
+        - "&7Weight: &f{weight}%"
+        - "&7Contribution: &b+{contribution} points"
+        - ""
+        - "&eWhat is this?"
+        - "&7Server-specific achievements and"
+        - "&7milestones unique to this server."
+        - ""
+      lore-achievement: "&a✓ {achievement}"
+      lore-more: "&7... and {count} more"
+      lore-none: "&7None yet - play to unlock them!"
+    
+    death-penalty:
+      name: "&4💀 Death Penalties"
+      lore:
+        - ""
+        - "&7Total Penalty: &c-{penalty} points"
+        - ""
+        - "&eWhat is this?"
+        - "&7Deaths reduce your progress in"
+        - "&7multiple ways."
+        - ""
+        - "&eHow to avoid:"
+        - "&a✓ Be careful in combat"
+        - "&a✓ Wear good armor"
+        - "&a✓ Keep backup gear safe"
+        - "&a✓ Avoid risky situations"
+        - ""
+        - "&6▶ Click to view death details!"
+        - ""
+    
+    tips:
+      name: "&d💡 Tips to Improve"
+      lore:
+        - ""
+        - "&eQuick tips based on your progress:"
+        - ""
+      tip-advancements:
+        - "&a► Focus on advancements!"
+        - "&7  Complete the main story line"
+        - "&7  and explore dimensions."
+      tip-experience:
+        - "&a► Gain more XP levels!"
+        - "&7  Kill mobs and mine ores to"
+        - "&7  increase experience."
+      tip-equipment:
+        - "&a► Upgrade your gear!"
+        - "&7  Get better materials and add"
+        - "&7  powerful enchantments."
+      tip-economy:
+        - "&a► Earn more money!"
+        - "&7  Participate in the economy"
+        - "&7  and trade with players."
+      tip-statistics:
+        - "&a► Be more active!"
+        - "&7  Fight mobs, mine blocks, and"
+        - "&7  explore the world."
+      tip-achievements:
+        - "&a► Complete achievements!"
+        - "&7  Unlock server-specific"
+        - "&7  achievements and milestones."
+      lore-footer:
+        - ""
+        - "&7Hover over each category above"
+        - "&7for detailed improvement tips!"
+        - ""
+
+  # =============================================================
+  # ADVANCEMENTS DETAIL MENU
+  # =============================================================
+  advancements:
+    summary:
+      name: "&6⭐ Advancement Summary"
+      lore:
+        - ""
+        - "&7Completed: &a{completed}&7/&f{total}"
+        - "&7Completion: &b{percent}%"
+        - ""
+        - "&eScroll down to see all advancements!"
+        - ""
+    
+    advancement-completed: "&a✓ {name}"
+    advancement-incomplete: "&c✗ {name}"
+    status-completed: "&aCompleted ✓"
+    status-incomplete: "&cNot Completed ✗"
+    category-label: "&7Category: &e{category}"
+    progress-label: "&7Progress: &b{completed}/{total}"
+    
+    categories:
+      story: "Story"
+      nether: "Nether"
+      end: "The End"
+      adventure: "Adventure"
+      husbandry: "Husbandry"
+      minecraft: "Minecraft"
+
+  # =============================================================
+  # EQUIPMENT DETAIL MENU
+  # =============================================================
+  equipment:
+    section-armor: "&6━━━ Armor ━━━"
+    section-hands: "&6━━━ Main Hand & Off Hand ━━━"
+    section-notable: "&6━━━ Notable Items in Inventory ━━━"
+    
+    slots:
+      helmet: "Helmet Slot"
+      chestplate: "Chestplate Slot"
+      leggings: "Leggings Slot"
+      boots: "Boots Slot"
+      main-hand: "Main Hand"
+      off-hand: "Off Hand"
+    
+    empty-slot: "&7{slot}: &cEmpty"
+    no-item-equipped: "&7No item equipped"
+    
+    full-set-bonus:
+      name: "&6⭐ Full Armor Set Bonus! +15%"
+      lore:
+        - ""
+        - "&aYou have a complete armor set!"
+        - "&7Equipment score bonus: &b+15%"
+        - ""
+    
+    no-notable-items: "&cNo notable items found"
+    
+    tier-label: "&7Tier: {color}{tier}"
+    durability-label: "&7Durability: {color}{current}/{max} ({percent}%)"
+    enchantments-header: "&dEnchantments:"
+    enchantment-entry: "&7  • &b{name} {level}"
+    value-label: "&7Est. Value: &6{value} points"
+    
+    tiers:
+      netherite: "Netherite"
+      diamond: "Diamond"
+      iron: "Iron"
+      gold: "Gold"
+      stone: "Stone"
+      basic: "Basic"
+      wood: "Wood"
+      common: "Common"
+
+  # =============================================================
+  # STATISTICS DETAIL MENU
+  # =============================================================
+  statistics:
+    value-label: "&fValue: &b{value} {unit}"
+    kills-label: "&fKills: &b{kills}"
+    
+    stats:
+      play-time: "⏰ Play Time"
+      distance-walked: "🚶 Distance Walked"
+      distance-sprinted: "🏃 Distance Sprinted"
+      distance-flown: "🦅 Distance Flown"
+      distance-boat: "⛵ Distance by Boat"
+      mob-kills: "⚔ Mob Kills"
+      player-kills: "💀 Player Kills"
+      deaths: "☠ Deaths"
+      blocks-mined: "⛏ Blocks Mined"
+      diamonds-mined: "💎 Diamonds Mined"
+      iron-mined: "🔧 Iron Mined"
+      gold-mined: "🌟 Gold Mined"
+      ancient-debris: "🔥 Ancient Debris"
+      blocks-placed: "🏗 Blocks Placed"
+      chests-opened: "📦 Chests Opened"
+      items-crafted: "🔨 Items Crafted"
+      villager-trades: "🤝 Villager Trades"
+      food-eaten: "🍖 Food Eaten"
+      damage-dealt: "❤ Damage Dealt"
+      damage-taken: "💔 Damage Taken"
+      ender-pearls: "🌀 Ender Pearls Thrown"
+      fish-caught: "🎣 Fish Caught"
+      potions-brewed: "⚗ Potions Brewed"
+      ender-dragons: "🐉 Ender Dragons Killed"
+      withers: "💀 Withers Killed"
+      wardens: "👁 Wardens Killed"
+      elder-guardians: "🐠 Elder Guardians Killed"
+    
+    units:
+      hours: "hours"
+      km: "km"
+      kills: "kills"
+      times: "times"
+      blocks: "blocks"
+      diamonds: "diamonds"
+      iron: "iron"
+      gold: "gold"
+      debris: "debris"
+      items: "items"
+      trades: "trades"
+      hearts: "hearts"
+      pearls: "pearls"
+      fish: "fish"
+      potions: "potions"
+
+  # =============================================================
+  # ECONOMY & EXPERIENCE DETAIL MENU
+  # =============================================================
+  economy-experience:
+    section-economy: "&6━━━ 💰 Economy ━━━"
+    section-experience: "&6━━━ ✨ Experience ━━━"
+    section-level-info: "&6━━━ 📊 Level Information ━━━"
+    
+    economy-not-available: "&cEconomy system not available"
+    economy-requires-vault:
+      - ""
+      - "&7This feature requires Vault"
+      - "&7and an economy plugin."
+      - ""
+    
+    balance:
+      name: "&6Current Balance"
+      description: "Your total money"
+    
+    wealth-tier:
+      name: "&6Wealth Tier"
+      description: "Based on your balance"
+    
+    next-milestone:
+      name: "&6Next Milestone"
+      description: "Keep earning!"
+    
+    current-level:
+      name: "&a✨ Current Level"
+      description: "Your XP level"
+    
+    progress-to-next:
+      name: "&a📖 Progress to Next Level"
+      description: "Keep grinding!"
+    
+    total-experience:
+      name: "&a📚 Total Experience"
+      description: "Lifetime XP earned"
+    
+    level-tier:
+      name: "&a🏆 Level Tier"
+      description: "Based on your level"
+    
+    level-breakdown:
+      name: "&d⭐ Level Breakdown"
+      lore:
+        - ""
+        - "&7Your progression:"
+        - ""
+      milestone-30: "&a✓ Level 30+ (Enchanting unlocked)"
+      milestone-50: "&a✓ Level 50+ (Expert tier)"
+      milestone-75: "&a✓ Level 75+ (Master tier)"
+      milestone-100: "&a✓ Level 100+ (Legendary tier)"
+    
+    wealth-tiers:
+      millionaire: "&5Millionaire"
+      ultra-wealthy: "&dUltra Wealthy"
+      very-wealthy: "&6Very Wealthy"
+      wealthy: "&eWealthy"
+      well-off: "&aWell Off"
+      comfortable: "&bComfortable"
+      getting-started: "&fGetting Started"
+      broke: "&7Broke"
+    
+    level-tiers:
+      legendary: "&5Legendary"
+      master: "&dMaster"
+      expert: "&bExpert"
+      advanced: "&aAdvanced"
+      intermediate: "&eIntermediate"
+      beginner: "&fBeginner"
+      novice: "&7Novice"
+
+  # =============================================================
+  # DEATH PENALTY DETAIL MENU
+  # =============================================================
+  death-penalty:
+    overview:
+      name: "&6⚡ Death Penalty Overview"
+      lore:
+        - ""
+        - "&7Deaths: &c{deaths}"
+        - ""
+        - "&eYour deaths affect your score!"
+        - ""
+    
+    total-deaths:
+      name: "&c💀 Total Deaths"
+      description: "Times you've died"
+    
+    current-penalty:
+      name: "&c⚠ Current Penalty"
+      description: "Applied to your score"
+    
+    gravesx-enabled:
+      name: "&a✓ GravesX Integration Active"
+      lore:
+        - ""
+        - "&7Smart death tracking enabled!"
+        - "&a✓ Tracks actual item loss"
+        - "&a✓ Monitors grave recovery"
+        - "&a✓ Fair penalty calculation"
+        - ""
+    
+    gravesx-disabled:
+      name: "&c✗ GravesX Not Detected"
+      lore:
+        - ""
+        - "&7Using basic death tracking"
+        - "&eInstall GravesX for smart penalties!"
+        - ""
+    
+    active-graves:
+      name: "&e⚰ Active Graves"
+      lore:
+        - ""
+        - "&7You have &f{count} &7active grave(s)"
+        - ""
+        - "&eRecover your graves to"
+        - "&ereduce the penalty!"
+        - ""
+    
+    how-it-works:
+      name: "&d📖 How Death Penalty Works"
+      lore:
+        - ""
+        - "&7With GravesX:"
+        - "&e1. &fCalculates value of lost items"
+        - "&e2. &fTracks grave location"
+        - "&e3. &fMonitors recovery attempts"
+        - "&e4. &fReduces penalty over time"
+        - ""
+        - "&7Without GravesX:"
+        - "&e• &fSimple death count penalty"
+        - ""
+    
+    tips:
+      name: "&a💡 Tips to Reduce Penalty"
+      lore:
+        - ""
+        - "&a✓ Recover your grave quickly"
+        - "&a✓ Keep valuable items in ender chest"
+        - "&a✓ Use Totem of Undying"
+        - "&a✓ Avoid risky situations"
+        - "&a✓ Get good armor and enchantments"
+        - ""
+        - "&eRemember: The penalty decreases"
+        - "&ewhen you recover your items!"
+        - ""
+
+  # =============================================================
+  # ADVANCEMENT ADMIN MENU
+  # =============================================================
+  advancement-admin:
+    op-required: "&c&l✘ &cYou must be an OP to use the advancement admin menu!"
+    player-offline: "&c&l✘ &cTarget player is no longer online!"
+    
+    advancement-grant: "&e&lClick to GRANT this advancement"
+    advancement-revoke: "&e&lClick to REVOKE this advancement"
+    
+    key-label: "&7Key: &f{key}"
+    category-label: "&7Category: &f{category}"
+    status-label: "&7Status: {status}"
+    status-completed: "&a&lCOMPLETED"
+    status-incomplete: "&c&lINCOMPLETE"
+    
+    filter:
+      name: "&b&lFilter: &f{mode}"
+      currently-showing: "&7Currently showing: &e{mode}"
+      click-cycle: "&eClick to cycle filter mode"
+    
+    bulk-actions:
+      name: "&c&l⚠ &6Bulk Actions"
+      lore:
+        - ""
+        - "&e&lLeft Click: &cReset ALL advancements"
+        - "&e&lRight Click: &aGrant ALL advancements"
+        - ""
+        - "&c&lWARNING: This affects &e{player}"
+        - "&c&lThis action cannot be undone!"
+    
+    close-menu: "&c&lClose Menu"
+    menu-closed: "&7Advancement admin menu closed."
+    
+    categories:
+      all: "All"
+      story: "Story"
+      nether: "Nether"
+      end: "End"
+      adventure: "Adventure"
+      husbandry: "Husbandry"
+      other: "Other"
+
+  # =============================================================
+  # NAVIGATION ITEMS
+  # =============================================================
+  navigation:
+    back-main:
+      name: "&e← Back to Main Menu"
+      lore:
+        - ""
+        - "&7Click to return to the"
+        - "&7main progress menu"
+    
+    back:
+      name: "&c&l← Back"
+      lore:
+        - ""
+        - "&7Return to {menu}"
+        - ""
+    
+    back-to-main:
+      name: "&c&l← Back&7 to Main"
+      lore:
+        - ""
+        - "&7Return to main menu"
+        - ""
+    
+    close:
+      name: "&c&l✗ Close"
+      lore:
+        - ""
+        - "&7Click to close this menu"
+        - ""
+    
+    previous-page:
+      name: "&e&l← Previous"
+      lore:
+        - ""
+        - "&7Go to page {page}"
+        - ""
+    
+    next-page:
+      name: "&e&lNext →"
+      lore:
+        - ""
+        - "&7Go to page {page}/{total}"
+        - ""
+    
+    page-info:
+      name: "&b&lPage {current}/{total}"
+      lore:
+        - ""
+        - "&7Current page: {current}"
+        - "&7Total pages: {total}"
+        - ""
+        - "&7Total Items: &f{items}"
+        - ""
+
+  # =============================================================
+  # GLOBAL ITEMS (Navbar, etc.)
+  # =============================================================
+  global:
+    balance:
+      name: "&6Balance:"
+      coins: "&eSkillCoins: &6{coins} ⛃"
+      tokens: "&aTokens: &2{tokens} 🎟"
+    
+    progress:
+      name: "&e&l{player}"
+      value: "&7Progress: &a{progress}%"
+      click: "&7Click to view details"
+    
+    quest-info:
+      name: "&6&lQuest Progress"
+      current: "&7Current: &e{quest}"
+      completed: "&7Completed: &a{completed}&7/&a{total}"
+      click: "&7Click to view details"
+    
+    base-info:
+      name: "&6&l{base}"
+      trusted: "&7Trusted players: &e{count}"
+      click: "&7Click to manage"
+
+# ═══════════════════════════════════════════════════════════════════
+# PROGRESS TIERS
+# ═══════════════════════════════════════════════════════════════════
+progress:
+  tiers:
+    master: "Master"
+    expert: "Expert"
+    advanced: "Advanced"
+    intermediate: "Intermediate"
+    novice: "Novice"
+    beginner: "Beginner"
+  
+  category-names:
+    advancements: "Advancements"
+    experience: "Experience"
+    equipment: "Equipment"
+    economy: "Economy"
+    statistics: "Statistics"
+    achievements: "Achievements"
+
+# ═══════════════════════════════════════════════════════════════════
+# SUCCESS MESSAGES
+# ═══════════════════════════════════════════════════════════════════
+success:
+  grave-penalty-removed: "&a&l✓ &aGrave penalty fully removed - assumed items recovered!"
+
+# ═══════════════════════════════════════════════════════════════════
+# ERROR MESSAGES
+# ═══════════════════════════════════════════════════════════════════
+errors:
+  player-not-found: "&cPlayer not found or not online."
+  no-permission: "&cYou don't have permission to do that."
+  data-load-failed: "&cFailed to load player data."
+  console-only-player: "&cThis command can only be used by players."
+  invalid-number: "&cInvalid number provided."
+  operation-failed: "&cOperation failed. Check console for details."
