@@ -76,9 +76,10 @@ public class MessageManager {
         // Load defaults from jar for missing keys
         InputStream defaultStream = plugin.getResource("messages.yml");
         if (defaultStream != null) {
-            YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(
-                new InputStreamReader(defaultStream));
-            messages.setDefaults(defaultConfig);
+            try (InputStreamReader reader = new InputStreamReader(defaultStream)) {
+                YamlConfiguration defaultConfig = YamlConfiguration.loadConfiguration(reader);
+                messages.setDefaults(defaultConfig);
+            }
         }
     }
     
