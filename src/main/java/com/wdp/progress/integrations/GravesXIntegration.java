@@ -166,7 +166,7 @@ public class GravesXIntegration implements Listener {
                     
                     Player player = plugin.getServer().getPlayer(playerUUID);
                     if (player != null && player.isOnline()) {
-                        player.sendMessage("§a§l✓ §aGrave penalty fully removed - assumed items recovered!");
+                        plugin.getMessages().send(player, "success.grave-penalty-removed");
                     }
                 }
             }

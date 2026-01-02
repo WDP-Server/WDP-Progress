@@ -4,6 +4,7 @@ import com.wdp.progress.api.ProgressAPI;
 import com.wdp.progress.commands.ProgressAdminCommand;
 import com.wdp.progress.commands.ProgressCommand;
 import com.wdp.progress.config.ConfigManager;
+import com.wdp.progress.config.MessageManager;
 import com.wdp.progress.data.DatabaseManager;
 import com.wdp.progress.data.PlayerDataManager;
 import com.wdp.progress.listeners.*;
@@ -41,6 +42,7 @@ public class WDPProgressPlugin extends JavaPlugin {
     
     // Core managers
     private ConfigManager configManager;
+    private MessageManager messageManager;
     private DatabaseManager databaseManager;
     private PlayerDataManager playerDataManager;
     private ProgressCalculator progressCalculator;
@@ -74,6 +76,10 @@ public class WDPProgressPlugin extends JavaPlugin {
             if (!configManager.loadConfig()) {
                 throw new RuntimeException("Failed to load configuration");
             }
+            
+            // Initialize message manager
+            getLogger().info("Loading messages...");
+            messageManager = new MessageManager(this);
             
             // Initialize database
             getLogger().info("Initializing database connection...");
@@ -250,6 +256,9 @@ public class WDPProgressPlugin extends JavaPlugin {
                 return false;
             }
             
+            // Reload messages
+            messageManager.reload();
+            
             progressCalculator.reloadWeights();
             
             getLogger().info("Configuration reloaded successfully");
@@ -269,6 +278,10 @@ public class WDPProgressPlugin extends JavaPlugin {
     
     public ConfigManager getConfigManager() {
         return configManager;
+    }
+    
+    public MessageManager getMessages() {
+        return messageManager;
     }
     
     public DatabaseManager getDatabaseManager() {

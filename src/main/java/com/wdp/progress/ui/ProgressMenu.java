@@ -3,6 +3,7 @@ package com.wdp.progress.ui;
 import com.wdp.progress.WDPProgressPlugin;
 import com.wdp.progress.data.PlayerData;
 import com.wdp.progress.progress.ProgressCalculator;
+import com.wdp.progress.ui.menu.UnifiedMenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -14,8 +15,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Interactive GUI menu for viewing player progress
@@ -24,6 +26,7 @@ public class ProgressMenu {
     
     private final WDPProgressPlugin plugin;
     private final DecimalFormat df = new DecimalFormat("#.#");
+    private final UnifiedMenuManager unifiedMenuManager;
     
     // Detail menus
     private final AdvancementsDetailMenu advancementsDetailMenu;
@@ -34,6 +37,7 @@ public class ProgressMenu {
     
     public ProgressMenu(WDPProgressPlugin plugin) {
         this.plugin = plugin;
+        this.unifiedMenuManager = new UnifiedMenuManager(plugin);
         
         // Initialize detail menus
         this.advancementsDetailMenu = new AdvancementsDetailMenu(plugin, this);
@@ -77,7 +81,8 @@ public class ProgressMenu {
             ChatColor.DARK_PURPLE + "⚡ " + ChatColor.GOLD + target.getName() + "'s Progress " + ChatColor.DARK_PURPLE + "⚡");
         
         // Main progress display (center top)
-        inv.setItem(4, createMainProgressItem(result));
+        inv.setItem(4, createExplainItem());
+        inv.setItem(49, createMainProgressItem(result));
         
         // Category items
         inv.setItem(10, createAdvancementsItem(result, target));
@@ -89,12 +94,16 @@ public class ProgressMenu {
         inv.setItem(32, createDeathPenaltyItem(result, data, target));
         inv.setItem(34, createTipsItem(result));
         
-        // Information items
-        inv.setItem(45, createExplainItem());
-        inv.setItem(49, createHistoryItem(target));
-        inv.setItem(53, createCloseItem());
+        // Apply unified navbar
+        Map<String, Object> context = new HashMap<>();
+        context.put("menu_name", "Progress Overview");
+        context.put("menu_description", "View your player progress");
+        context.put("page", 1);
+        context.put("total_pages", 1);
         
-        // Decorative borders
+        unifiedMenuManager.applyNavbar(inv, viewer, "progress", context);
+        
+        // Decorative borders (only for non-navbar areas)
         fillBorder(inv);
         
         viewer.openInventory(inv);
@@ -557,51 +566,6 @@ public class ProgressMenu {
     }
     
     /**
-     * Create history item
-     */
-    private ItemStack createHistoryItem(Player target) {
-        ItemStack item = new ItemStack(Material.CLOCK);
-        ItemMeta meta = item.getItemMeta();
-        
-        meta.setDisplayName(ChatColor.YELLOW + "📊 Progress History");
-        
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "View your progress over time");
-        lore.add("");
-        lore.add(ChatColor.YELLOW + "Coming soon:");
-        lore.add(ChatColor.GRAY + "• Progress graph");
-        lore.add(ChatColor.GRAY + "• Historical data");
-        lore.add(ChatColor.GRAY + "• Trends and statistics");
-        lore.add("");
-        
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        
-        return item;
-    }
-    
-    /**
-     * Create close item
-     */
-    private ItemStack createCloseItem() {
-        ItemStack item = new ItemStack(Material.BARRIER);
-        ItemMeta meta = item.getItemMeta();
-        
-        meta.setDisplayName(ChatColor.RED + "✖ Close Menu");
-        
-        List<String> lore = new ArrayList<>();
-        lore.add("");
-        lore.add(ChatColor.GRAY + "Click to close this menu");
-        lore.add("");
-        
-        meta.setLore(lore);
-        item.setItemMeta(meta);
-        
-        return item;
-    }
-    
-    /**
      * Fill border with decorative glass
      */
     private void fillBorder(Inventory inv) {
@@ -699,5 +663,9 @@ public class ProgressMenu {
         }
         
         return category;
+    }
+    
+    public UnifiedMenuManager getUnifiedMenuManager() {
+        return unifiedMenuManager;
     }
 }

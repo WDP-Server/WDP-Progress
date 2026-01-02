@@ -3,7 +3,6 @@ package com.wdp.progress.ui;
 import com.wdp.progress.WDPProgressPlugin;
 import com.wdp.progress.data.PlayerData;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

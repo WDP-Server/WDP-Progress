@@ -1,6 +1,7 @@
 package com.wdp.progress.ui;
 
 import com.wdp.progress.WDPProgressPlugin;
+import com.wdp.progress.ui.menu.UnifiedMenuManager;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -44,8 +45,6 @@ public class ProgressMenuListener implements Listener {
             return;
         }
         
-        String displayName = clicked.getItemMeta().getDisplayName();
-        
         // Extract target player name from title
         String targetName = extractPlayerName(title);
         Player target = targetName != null ? plugin.getServer().getPlayer(targetName) : viewer;
@@ -53,7 +52,7 @@ public class ProgressMenuListener implements Listener {
         
         // Handle main menu clicks
         if (title.contains("'s Progress")) {
-            handleMainMenuClick(viewer, target, displayName);
+            handleMainMenuClick(viewer, target, event.getRawSlot());
         }
         // Handle detail menu clicks
         else {
@@ -61,14 +60,30 @@ public class ProgressMenuListener implements Listener {
         }
     }
     
-    private void handleMainMenuClick(Player viewer, Player target, String displayName) {
+    private void handleMainMenuClick(Player viewer, Player target, int slot) {
         ProgressMenu menu = plugin.getProgressMenu();
         
-        // Check for close button
-        if (displayName.contains("Close")) {
-            viewer.closeInventory();
-            return;
+        // Handle unified navbar clicks (slots 45-53)
+        if (slot >= 45 && slot <= 53) {
+            UnifiedMenuManager.NavbarAction action = menu.getUnifiedMenuManager().getNavbarAction(slot);
+            switch (action) {
+                case CLOSE:
+                    viewer.closeInventory();
+                    return;
+                case BACK:
+                    viewer.closeInventory();
+                    return;
+                case NONE:
+                default:
+                    // Not a navbar action, continue with menu-specific handling
+                    break;
+            }
         }
+        
+        // Get display name for menu-specific clicks
+        ItemStack clicked = viewer.getOpenInventory().getItem(slot);
+        if (clicked == null || clicked.getItemMeta() == null) return;
+        String displayName = clicked.getItemMeta().getDisplayName();
         
         // Open detail menus based on category clicked
         if (displayName.contains("Advancements")) {

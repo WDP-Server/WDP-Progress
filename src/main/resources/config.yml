@@ -276,6 +276,11 @@ equipment:
 # Configure how player money/balance contributes to progress.
 # Uses logarithmic scaling to prevent excessive farming.
 # Requires Vault and an economy plugin.
+# 
+# ECONOMY BALANCE V2:
+# Based on expected player earnings from skills (41,800 coins max from all skills)
+# and daily quests (~200-500 coins/day average), thresholds are set to reward
+# active players without making economy the only path to progress.
 # ═══════════════════════════════════════════════════════════════════════════
 
 economy:
@@ -285,30 +290,31 @@ economy:
   # Money thresholds for progression milestones
   # Uses logarithmic scale: score = log10(balance) / log10(max-balance) * 100
   thresholds:
-    # Starting phase (0-1000)
-    early-game: 1000.0
+    # Starting phase (0-500) - first few quests/levels
+    early-game: 500.0
     
-    # Established phase (1000-10000)
-    mid-game: 10000.0
+    # Established phase (500-2500) - regular player
+    mid-game: 2500.0
     
-    # Wealthy phase (10000-100000)
-    late-game: 100000.0
+    # Wealthy phase (2500-10000) - dedicated player
+    late-game: 10000.0
     
     # Maximum balance for full score (100% of economy weight)
-    max-balance: 1000000.0
+    # Achievable through many skills + quests but takes real effort
+    max-balance: 50000.0
   
   # Milestone bonuses for reaching specific balance amounts
   milestones:
-    100: 0.5
-    500: 1.0
-    1000: 1.5
-    5000: 2.0
-    10000: 3.0
-    25000: 4.0
-    50000: 5.0
-    100000: 7.0
-    500000: 10.0
-    1000000: 15.0
+    50: 0.5
+    100: 1.0
+    250: 1.5
+    500: 2.0
+    1000: 2.5
+    2500: 3.5
+    5000: 5.0
+    10000: 7.0
+    25000: 10.0
+    50000: 15.0
 
 # ═══════════════════════════════════════════════════════════════════════════
 # STATISTICS TRACKING
